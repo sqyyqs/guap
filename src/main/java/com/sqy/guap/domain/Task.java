@@ -17,6 +17,7 @@ public record Task(
         public String getTypeName() {
             return typeName;
         }
+
         public static TaskType getProductListItemType(String name) {
             if (PRIMARY.getTypeName().equals(name)) {
                 return PRIMARY;
@@ -24,4 +25,5 @@ public record Task(
             return SECONDARY;
         }
     }
+
 }

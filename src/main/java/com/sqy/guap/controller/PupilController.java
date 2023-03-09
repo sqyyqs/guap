@@ -29,7 +29,7 @@ public class PupilController {
     public ResponseEntity<?> getPupilById(@PathVariable long id) {
         logger.info("Invoke getPupilById({}).", id);
         Pupil pupil = pupilService.getPupilById(id);
-        if(pupil == null) {
+        if (pupil == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(pupil);

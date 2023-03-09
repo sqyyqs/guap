@@ -30,6 +30,7 @@ public class TeacherRepository {
         }
         return null;
     }
+
     private static RowMapper<Teacher> getTeacherRowMapper() {
         return ((rs, rowNum) -> new Teacher(
                 rs.getLong("teacher_id"),
