@@ -1,6 +1,7 @@
 package com.sqy.guap.repository;
 
 import com.sqy.guap.domain.Teacher;
+import jakarta.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -20,6 +21,7 @@ public class TeacherRepository {
         this.npjTemplate = npjTemplate;
     }
 
+    @Nullable
     public Teacher getTeacherById(long id) {
         try {
             MapSqlParameterSource namedParameters = new MapSqlParameterSource("id", id);
