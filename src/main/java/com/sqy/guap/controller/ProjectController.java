@@ -5,6 +5,7 @@ import com.sqy.guap.domain.Project;
 import com.sqy.guap.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,13 @@ public class ProjectController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Project> getProjectById(@PathVariable long id) {
-        logger.debug("Invoke getProjectById({})", id);
-        return ResponseEntity.ok(projectService.getProjectById(id));
+        logger.info("Invoke getProjectById({})", id);
+        Project project = projectService.getProjectById(id);
+        if (project == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(project);
     }
+
+
 }

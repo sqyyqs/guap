@@ -9,12 +9,10 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
-
 @Repository
 public class ProjectRepository {
-    private final static Logger logger = LoggerFactory.getLogger(ProjectRepository.class);
-    private final static String SQL_SELECT_PROJECT_BY_ID = "select * from project where projectId = :id";
+    private static final Logger logger = LoggerFactory.getLogger(ProjectRepository.class);
+    private static final String SQL_SELECT_PROJECT_BY_ID = "select * from project where project_id = :id";
 
     private final NamedParameterJdbcTemplate npjTemplate;
 
@@ -28,19 +26,18 @@ public class ProjectRepository {
 
             return npjTemplate.queryForObject(SQL_SELECT_PROJECT_BY_ID, namedParameters, getProjectRowMapper());
         } catch (DataAccessException ex) {
-            logger.error("Invoke existUserById({}).", id, ex);
+            logger.error("Invoke getProjectById({}) with exception.", id, ex);
         }
         return null;
     }
 
     private static RowMapper<Project> getProjectRowMapper() {
         return ((rs, rowNum) -> new Project(
-                rs.getLong("projectId"),
+                rs.getLong("project_id"),
                 rs.getString("theme"),
                 rs.getString("name"),
                 null,
-                rs.getLong("teacherId"),
-                Collections.emptyList()
+                rs.getLong("teacher_id")
         ));
     }
 }
