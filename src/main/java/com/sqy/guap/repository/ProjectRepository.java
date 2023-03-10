@@ -18,16 +18,19 @@ public class ProjectRepository {
     private static final Logger logger = LoggerFactory.getLogger(ProjectRepository.class);
 
     private static final String SQL_SELECT_PROJECT_BY_ID =
-            "select project_id, theme, name from project where project_id = :id";
+            "select project_id, theme, name, teacher_id from project where project_id = :id";
     private static final String SQL_SELECT_PROJECTS_BY_STUDENT_ID = """
             select pts.project_id as project_id,
                    p.name         as name,
-                   p.theme        as theme
+                   p.theme        as theme,
+                   p.teacher_id   as teacher_id
             from project_to_student pts
                      inner join project p on p.project_id = pts.project_id
             where pts.student_id = :id""";
     private static final String SQL_SELECT_PROJECTS_BY_TEACHER_ID =
-            "select project_id, theme, name from project where teacher_id = :id";
+            "select project_id, theme, name, teacher_id from project where teacher_id = :id";
+    private static final String SQL_SELECT_ALL_PROJECTS =
+            "select project_id, theme, name, teacher_id from project";
     private static final String SQL_UPDATE_PROJECT =
             "update project set theme = :theme, name = :name, teacher_id = :teacher_id where project_id = :id";
     private static final String SQL_DELETE_PROJECT =
@@ -80,9 +83,19 @@ public class ProjectRepository {
         return null;
     }
 
+    @Nullable
+    public Collection<Project> getAllProjects() {
+        try {
+            return npjTemplate.query(SQL_SELECT_ALL_PROJECTS, projectRowMapper());
+        } catch (DataAccessException ex) {
+            logger.error("Invoke removeProject() with exception.", ex);
+        }
+        return null;
+    }
+
     public boolean updateProject(ProjectDto projectDto) {
         try {
-            if(getProjectById(projectDto.projectId()) == null) {
+            if (getProjectById(projectDto.projectId()) == null) {
                 return false;
             }
             npjTemplate.update(SQL_UPDATE_PROJECT, sqlParametersFromDto(projectDto));
@@ -106,7 +119,7 @@ public class ProjectRepository {
 
     public boolean removeProject(long id) {
         try {
-            if(getProjectById(id) == null) {
+            if (getProjectById(id) == null) {
                 return false;
             }
             npjTemplate.update(SQL_DELETE_PROJECT, new MapSqlParameterSource("id", id));
@@ -121,7 +134,8 @@ public class ProjectRepository {
         return ((rs, rowNum) -> new Project(
                 rs.getLong("project_id"),
                 rs.getString("theme"),
-                rs.getString("name")
+                rs.getString("name"),
+                rs.getLong("teacher_id")
         ));
     }
 

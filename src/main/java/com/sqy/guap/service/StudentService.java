@@ -26,6 +26,11 @@ public class StudentService {
         return studentRepository.getStudentsByProjectId(projectId);
     }
 
+    @Nullable
+    public Collection<Student> getAllStudents() {
+        return studentRepository.getAllStudents();
+    }
+
     public boolean createStudent(StudentDto studentDto) {
         return studentRepository.createStudent(studentDto);
     }

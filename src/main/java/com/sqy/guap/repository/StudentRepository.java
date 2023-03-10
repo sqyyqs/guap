@@ -19,6 +19,8 @@ public class StudentRepository {
 
     private static final String SQL_SELECT_STUDENT_BY_ID =
             "select student_id, name from student where student_id = :id";
+    private static final String SQL_SELECT_ALL_STUDENTS =
+            "select student_id, name from student";
     private static final String SQL_SELECT_STUDENTS_BY_PROJECT_ID = """
             select pts.student_id as student_id,
                    s.name         as name
@@ -56,6 +58,16 @@ public class StudentRepository {
             return npjTemplate.query(SQL_SELECT_STUDENTS_BY_PROJECT_ID, namedParameters, getStudentRowMapper());
         } catch (DataAccessException ex) {
             logger.error("Invoke getStudentsByProjectId({}) with exception.", projectId, ex);
+        }
+        return null;
+    }
+
+    @Nullable
+    public Collection<Student> getAllStudents() {
+        try {
+            return npjTemplate.query(SQL_SELECT_ALL_STUDENTS, getStudentRowMapper());
+        } catch (DataAccessException ex) {
+            logger.error("Invoke getAllStudents()", ex);
         }
         return null;
     }

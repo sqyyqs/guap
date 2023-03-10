@@ -47,11 +47,21 @@ public class StudentController {
     @GetMapping("/get-by-project-id")
     public ResponseEntity<Collection<Student>> getStudentsByProjectId(@RequestParam("project_id") long projectId) {
         logger.info("Invoke getStudentsByProjectId({}).", projectId);
-        Collection<Student> student = studentService.getStudentsByProjectId(projectId);
-        if (student == null) {
+        Collection<Student> students = studentService.getStudentsByProjectId(projectId);
+        if (students == null) {
             return notFound().build();
         }
-        return ResponseEntity.ok(student);
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<Collection<Student>> getAllStudents() {
+        logger.info("Invoke getAllStudents().");
+        Collection<Student> students = studentService.getAllStudents();
+        if (students == null) {
+            return notFound().build();
+        }
+        return ResponseEntity.ok(students);
     }
 
     @PostMapping("/create")

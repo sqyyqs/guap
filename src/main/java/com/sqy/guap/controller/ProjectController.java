@@ -42,6 +42,16 @@ public class ProjectController {
         return ResponseEntity.ok(project);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<Collection<Project>> getAllProjects() {
+        logger.info("Invoke getAllProjects().");
+        Collection<Project> projects = projectService.getAllProjects();
+        if (projects == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(projects);
+    }
+
     @GetMapping("/get-by-student-id")
     public ResponseEntity<Collection<Project>> getProjectsByStudentId(@RequestParam("student_id") long id) {
         logger.info("Invoke getProjectsByStudentId({}).", id);

@@ -32,6 +32,11 @@ public class ProjectService {
         return projectRepository.getProjectsByTeacherId(id);
     }
 
+    @Nullable
+    public Collection<Project> getAllProjects() {
+        return projectRepository.getAllProjects();
+    }
+
     public boolean updateProject(ProjectDto projectDto) {
         return projectRepository.updateProject(projectDto);
     }
