@@ -61,7 +61,7 @@ public class TaskRepository {
         return null;
     }
 
-    public void createTask(TaskDto taskDto) {
+    public boolean createTask(TaskDto taskDto) {
         try {
             MapSqlParameterSource namedParameters = new MapSqlParameterSource();
             namedParameters.addValue("name", taskDto.name());
@@ -69,39 +69,56 @@ public class TaskRepository {
             namedParameters.addValue("status", taskDto.status().getTaskStatusName());
             namedParameters.addValue("project_id", taskDto.projectId());
             npjTemplate.update(SQL_INSERT_TASK, namedParameters);
+            return true;
         } catch (DataAccessException ex) {
             logger.error("Invoke createTask({}) with exception.", taskDto, ex);
         }
+        return false;
     }
 
-    public void updateTaskType(UpdateTaskTypeDto uttDto) {
+    public boolean updateTaskType(UpdateTaskTypeDto uttDto) {
         try {
+            if(getTaskById(uttDto.taskId()) == null) {
+                return false;
+            }
             MapSqlParameterSource namedParameters = new MapSqlParameterSource();
             namedParameters.addValue("id", uttDto.taskId());
             namedParameters.addValue("type", uttDto.type().getTypeName());
             npjTemplate.update(SQL_UPDATE_TASK_TYPE, namedParameters);
+            return true;
         } catch (DataAccessException ex) {
             logger.error("Invoke updateTaskType({}) with exception.", uttDto, ex);
         }
+        return false;
     }
 
-    public void updateTaskStatus(UpdateTaskStatusDto utsDto) {
+    public boolean updateTaskStatus(UpdateTaskStatusDto utsDto) {
         try {
+            if(getTaskById(utsDto.taskId()) == null) {
+                return false;
+            }
             MapSqlParameterSource namedParameters = new MapSqlParameterSource();
             namedParameters.addValue("id", utsDto.taskId());
             namedParameters.addValue("status", utsDto.status().getTaskStatusName());
             npjTemplate.update(SQL_UPDATE_TASK_STATUS, namedParameters);
+            return true;
         } catch (DataAccessException ex) {
             logger.error("Invoke updateTaskStatus({}) with exception.", utsDto, ex);
         }
+        return false;
     }
 
-    public void removeTask(long id) {
+    public boolean removeTask(long id) {
         try {
+            if(getTaskById(id) == null) {
+                return false;
+            }
             npjTemplate.update(SQL_DELETE_BY_ID, new MapSqlParameterSource("id", id));
+            return true;
         } catch (DataAccessException ex) {
             logger.error("Invoke removeTask({}) with exception.", id, ex);
         }
+        return false;
     }
 
     private static RowMapper<Task> getTaskRowMapper() {

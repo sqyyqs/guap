@@ -38,7 +38,7 @@ public class TaskController {
         logger.info("Invoke getTaskById({}).", id);
         Task task = taskService.getTaskById(id);
         if (task == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(task);
     }
@@ -48,7 +48,7 @@ public class TaskController {
         logger.info("Invoke getTasksById({}).", projectId);
         Collection<Task> tasks = taskService.getTasksByProjectId(projectId);
         if (tasks == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(tasks);
     }
@@ -56,28 +56,40 @@ public class TaskController {
     @PostMapping("/create")
     public ResponseEntity<String> createTask(@RequestBody TaskDto taskDto) {
         logger.info("Invoke createTask({}).", taskDto);
-        taskService.createTask(taskDto);
-        return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        boolean status = taskService.createTask(taskDto);
+        if (status) {
+            return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        }
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     @PutMapping("/update-status")
     public ResponseEntity<String> updateTaskStatus(@RequestBody UpdateTaskStatusDto utsDto) {
         logger.info("Invoke updateTaskStatus({}).", utsDto);
-        taskService.updateTaskStatus(utsDto);
-        return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        boolean status = taskService.updateTaskStatus(utsDto);
+        if (status) {
+            return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/update-type")
     public ResponseEntity<String> updateTaskType(@RequestBody UpdateTaskTypeDto uttDto) {
         logger.info("Invoke updateTaskType({}).", uttDto);
-        taskService.updateTaskType(uttDto);
-        return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        boolean status = taskService.updateTaskType(uttDto);
+        if (status) {
+            return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/remove")
     public ResponseEntity<String> removeTask(@RequestParam long id) {
         logger.info("Invoke removeTask({}).", id);
-        taskService.removeTask(id);
-        return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        boolean status = taskService.removeTask(id);
+        if (status) {
+            return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        }
+        return ResponseEntity.notFound().build();
     }
 }

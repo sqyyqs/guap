@@ -7,6 +7,7 @@ import com.sqy.guap.service.ProjectService;
 import com.sqy.guap.utils.MappingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,22 +65,31 @@ public class ProjectController {
     @PutMapping("/update")
     public ResponseEntity<String> updateProject(@RequestBody ProjectDto projectDto) {
         logger.info("Invoke updateProject({}).", projectDto);
-        projectService.updateProject(projectDto);
-        return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        boolean status = projectService.updateProject(projectDto);
+        if (status) {
+            return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/create")
     public ResponseEntity<String> createProject(@RequestBody ProjectDto projectDto) {
         logger.info("Invoke createProject({}).", projectDto);
-        projectService.createProject(projectDto);
-        return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        boolean status = projectService.createProject(projectDto);
+        if (status) {
+            return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        }
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     @DeleteMapping("/remove")
     public ResponseEntity<String> removeProject(@RequestParam("project_id") long id) {
         logger.info("Invoke removeProject({}).", id);
-        projectService.removeProject(id);
-        return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        boolean status = projectService.removeProject(id);
+        if (status) {
+            return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }

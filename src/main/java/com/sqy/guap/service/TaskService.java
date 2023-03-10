@@ -28,19 +28,19 @@ public class TaskService {
         return taskRepository.getTasksByProjectId(projectId);
     }
 
-    public void createTask(TaskDto taskDto) {
-        taskRepository.createTask(taskDto);
+    public boolean createTask(TaskDto taskDto) {
+        return taskRepository.createTask(taskDto);
     }
 
-    public void updateTaskType(UpdateTaskTypeDto uttDto) {
-        taskRepository.updateTaskType(uttDto);
+    public boolean updateTaskType(UpdateTaskTypeDto uttDto) {
+        return taskRepository.updateTaskType(uttDto);
     }
 
-    public void updateTaskStatus(UpdateTaskStatusDto utsDto) {
-        taskRepository.updateTaskStatus(utsDto);
+    public boolean updateTaskStatus(UpdateTaskStatusDto utsDto) {
+        return taskRepository.updateTaskStatus(utsDto);
     }
 
-    public void removeTask(long id) {
-        taskRepository.removeTask(id);
+    public boolean removeTask(long id) {
+        return taskRepository.removeTask(id);
     }
 }

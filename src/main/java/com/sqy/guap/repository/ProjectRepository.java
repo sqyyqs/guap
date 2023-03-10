@@ -80,29 +80,41 @@ public class ProjectRepository {
         return null;
     }
 
-    public void updateProject(ProjectDto projectDto) {
+    public boolean updateProject(ProjectDto projectDto) {
         try {
-            npjTemplate.update(SQL_UPDATE_PROJECT, parametersFromDto(projectDto));
+            if(getProjectById(projectDto.projectId()) == null) {
+                return false;
+            }
+            npjTemplate.update(SQL_UPDATE_PROJECT, sqlParametersFromDto(projectDto));
+            return true;
         } catch (DataAccessException ex) {
             logger.error("Invoke updateProject({}) with exception.", projectDto, ex);
         }
+        return false;
     }
 
-    public void createProject(ProjectDto projectDto) {
+    public boolean createProject(ProjectDto projectDto) {
         try {
-            npjTemplate.update(SQL_INSERT_PROJECT, parametersFromDto(projectDto));
+            npjTemplate.update(SQL_INSERT_PROJECT, sqlParametersFromDto(projectDto));
+            return true;
         } catch (DataAccessException ex) {
             logger.error("Invoke createProject({}) with exception.", projectDto, ex);
         }
+        return false;
     }
 
 
-    public void removeProject(long id) {
+    public boolean removeProject(long id) {
         try {
+            if(getProjectById(id) == null) {
+                return false;
+            }
             npjTemplate.update(SQL_DELETE_PROJECT, new MapSqlParameterSource("id", id));
+            return true;
         } catch (DataAccessException ex) {
             logger.error("Invoke removeProject({}) with exception.", id, ex);
         }
+        return false;
     }
 
     private static RowMapper<Project> projectRowMapper() {
@@ -113,7 +125,7 @@ public class ProjectRepository {
         ));
     }
 
-    private static MapSqlParameterSource parametersFromDto(ProjectDto projectDto) {
+    private static MapSqlParameterSource sqlParametersFromDto(ProjectDto projectDto) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("theme", projectDto.theme());
         namedParameters.addValue("name", projectDto.name());

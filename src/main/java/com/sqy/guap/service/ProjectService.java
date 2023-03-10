@@ -32,15 +32,15 @@ public class ProjectService {
         return projectRepository.getProjectsByTeacherId(id);
     }
 
-    public void updateProject(ProjectDto projectDto) {
-        projectRepository.updateProject(projectDto);
+    public boolean updateProject(ProjectDto projectDto) {
+        return projectRepository.updateProject(projectDto);
     }
 
-    public void createProject(ProjectDto projectDto) {
-        projectRepository.createProject(projectDto);
+    public boolean createProject(ProjectDto projectDto) {
+        return projectRepository.createProject(projectDto);
     }
 
-    public void removeProject(long id) {
-        projectRepository.removeProject(id);
+    public boolean removeProject(long id) {
+        return projectRepository.removeProject(id);
     }
 }
