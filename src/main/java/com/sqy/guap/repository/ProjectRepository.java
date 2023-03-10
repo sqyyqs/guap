@@ -35,7 +35,6 @@ public class ProjectRepository {
     private static final String SQL_INSERT_PROJECT =
             "insert into project(theme, name, teacher_id) values (:theme, :name, :teacher_id);";
 
-
     private final NamedParameterJdbcTemplate npjTemplate;
 
     public ProjectRepository(NamedParameterJdbcTemplate npjTemplate) {
@@ -110,8 +109,7 @@ public class ProjectRepository {
         return ((rs, rowNum) -> new Project(
                 rs.getLong("project_id"),
                 rs.getString("theme"),
-                rs.getString("name"),
-                null
+                rs.getString("name")
         ));
     }
 

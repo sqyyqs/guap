@@ -4,6 +4,14 @@ spring:
     url: jdbc:postgresql://localhost:32768/postgres
     username: postgres
     password: postgrespw
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 100MB
+      max-request-size: 110MB
 logging:
   level:
     com.example.demo: debug
+file:
+  upload-dir: /Users/konstantindemin/Documents/projects/suai/src/main/resources/files

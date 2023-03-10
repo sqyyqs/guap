@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class TeacherRepository {
     private static final Logger logger = LoggerFactory.getLogger(TeacherRepository.class);
+
     private static final String SQL_SELECT_TEACHER_BY_ID = "select * from teacher where teacher_id = :id";
 
     private final NamedParameterJdbcTemplate npjTemplate;

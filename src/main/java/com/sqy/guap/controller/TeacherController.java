@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/teacher")
 public class TeacherController {
     private static final Logger logger = LoggerFactory.getLogger(TeacherController.class);
+
     private final TeacherService teacherService;
 
     public TeacherController(TeacherService teacherService) {
