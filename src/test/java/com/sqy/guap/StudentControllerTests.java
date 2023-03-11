@@ -56,7 +56,7 @@ public class StudentControllerTests {
     @Test
     public void testGetStudentById() throws Exception {
         Student student = new Student(2L, "michail");
-        Mockito.when(studentService.getStudentById(1)).thenReturn(student);
+        Mockito.when(studentService.getStudentById(Mockito.anyLong())).thenReturn(student);
 
         mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/api/student/1"))
                 .andExpect(status().isOk())
@@ -66,7 +66,7 @@ public class StudentControllerTests {
                 .andExpect(jsonPath("$.studentId", is(2)));
 
 
-        Mockito.when(studentService.getStudentById(2)).thenReturn(null);
+        Mockito.when(studentService.getStudentById(Mockito.anyLong())).thenReturn(null);
 
         mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/api/student/2"))
                 .andExpect(status().isNotFound());
@@ -122,12 +122,12 @@ public class StudentControllerTests {
 
     @Test
     public void testRemoveStudent() throws Exception {
-        Mockito.when(studentService.removeStudent(1)).thenReturn(true);
+        Mockito.when(studentService.removeStudent(Mockito.anyLong())).thenReturn(true);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("http://localhost:8080/api/student/remove?id=1"))
                 .andExpect(status().isOk());
 
-        Mockito.when(studentService.removeStudent(2)).thenReturn(false);
+        Mockito.when(studentService.removeStudent(Mockito.anyLong())).thenReturn(false);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("http://localhost:8080/api/student/remove?id=2"))
                 .andExpect(status().isNotFound());

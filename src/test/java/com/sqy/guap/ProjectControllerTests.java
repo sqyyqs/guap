@@ -40,7 +40,7 @@ class ProjectControllerTests {
     public void testGetProjectById() throws Exception {
         Project project = new Project(1L, "theme", "name", 2L);
 
-        Mockito.when(projectService.getProjectById(1)).thenReturn(project);
+        Mockito.when(projectService.getProjectById(Mockito.anyLong())).thenReturn(project);
 
         mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/api/project/1"))
                 .andExpect(status().isOk())
@@ -51,7 +51,7 @@ class ProjectControllerTests {
                 .andExpect(jsonPath("$.projectId", is(1)))
                 .andExpect(jsonPath("$.teacherId", is(2)));
 
-        Mockito.when(projectService.getProjectById(2)).thenReturn(null);
+        Mockito.when(projectService.getProjectById(Mockito.anyLong())).thenReturn(null);
 
         mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/api/project/2"))
                 .andExpect(status().isNotFound());
@@ -127,7 +127,7 @@ class ProjectControllerTests {
                 new Project(2L, "theme2", "name2", 3L)
         );
 
-        Mockito.when(projectService.getProjectsByTeacherId(3)).thenReturn(projects);
+        Mockito.when(projectService.getProjectsByTeacherId(Mockito.anyLong())).thenReturn(projects);
         mockMvc.perform(MockMvcRequestBuilders.get(
                         "http://localhost:8080/api/project/get-by-teacher-id?teacher_id=3"))
                 .andExpect(status().isOk())
@@ -142,7 +142,7 @@ class ProjectControllerTests {
                 .andExpect(jsonPath("$[1].projectId", is(2)))
                 .andExpect(jsonPath("$[1].teacherId", is(3)));
 
-        Mockito.when(projectService.getProjectsByTeacherId(123123)).thenReturn(Collections.emptyList());
+        Mockito.when(projectService.getProjectsByTeacherId(Mockito.anyLong())).thenReturn(Collections.emptyList());
         mockMvc.perform(MockMvcRequestBuilders.get(
                         "http://localhost:8080/api/project/get-by-teacher-id?teacher_id=123123"))
                 .andExpect(status().isNotFound());

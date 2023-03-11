@@ -37,7 +37,7 @@ public class TaskControllerTests {
     @Test
     public void testGetTaskById() throws Exception {
         Task task = new Task(2L, "do some", Task.TaskType.PRIMARY, Task.TaskStatus.COMPLETED);
-        Mockito.when(taskService.getTaskById(2)).thenReturn(task);
+        Mockito.when(taskService.getTaskById(Mockito.anyLong())).thenReturn(task);
         mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/api/task/2"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -47,7 +47,7 @@ public class TaskControllerTests {
                 .andExpect(jsonPath("$.type", is("PRIMARY")))
                 .andExpect(jsonPath("$.name", is("do some")));
 
-        Mockito.when(taskService.getTaskById(2)).thenReturn(null);
+        Mockito.when(taskService.getTaskById(Mockito.anyLong())).thenReturn(null);
 
         mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/api/task/2"))
                 .andExpect(status().isNotFound());
