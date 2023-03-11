@@ -95,7 +95,7 @@ public class ProjectRepository {
 
     public boolean updateProject(ProjectDto projectDto) {
         try {
-            if (getProjectById(projectDto.projectId()) == null) {
+            if (projectDto.projectId() == null || getProjectById(projectDto.projectId()) == null) {
                 return false;
             }
             npjTemplate.update(SQL_UPDATE_PROJECT, sqlParametersFromDto(projectDto));

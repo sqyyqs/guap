@@ -55,18 +55,18 @@ public class ProjectController {
     @GetMapping("/get-by-student-id")
     public ResponseEntity<Collection<Project>> getProjectsByStudentId(@RequestParam("student_id") long id) {
         logger.info("Invoke getProjectsByStudentId({}).", id);
-        Collection<Project> project = projectService.getProjectsByStudentId(id);
-        if (project == null) {
+        Collection<Project> projects = projectService.getProjectsByStudentId(id);
+        if (projects.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(project);
+        return ResponseEntity.ok(projects);
     }
 
     @GetMapping("/get-by-teacher-id")
     public ResponseEntity<Collection<Project>> getProjectsByTeacherId(@RequestParam("teacher_id") long id) {
         logger.info("Invoke getProjectsByTeacherId({}).", id);
         Collection<Project> project = projectService.getProjectsByTeacherId(id);
-        if (project == null) {
+        if (project.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(project);
@@ -93,7 +93,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/remove")
-    public ResponseEntity<String> removeProject(@RequestParam("project_id") long id) {
+    public ResponseEntity<String> removeProject(@RequestParam("id") long id) {
         logger.info("Invoke removeProject({}).", id);
         boolean status = projectService.removeProject(id);
         if (status) {

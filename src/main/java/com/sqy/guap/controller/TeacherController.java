@@ -59,7 +59,7 @@ public class TeacherController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/remove")
     public ResponseEntity<String> removeTeacher(@RequestParam long id) {
         logger.info("Invoke removeTeacher({}).", id);
         boolean status = teacherService.removeTeacher(id);

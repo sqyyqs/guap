@@ -17,8 +17,8 @@ public record TaskDto(
 ) {
     @JsonCreator
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public TaskDto(@Nullable @JsonProperty("task_id") Long taskId,
-                   @JsonProperty("project_id") Long projectId,
+    public TaskDto(@Nullable @JsonProperty("taskId") Long taskId,
+                   @JsonProperty("projectId") Long projectId,
                    @JsonProperty("name") String name,
                    @JsonProperty("type") Task.TaskType type,
                    @JsonProperty("status") Task.TaskStatus status) {

@@ -85,7 +85,7 @@ public class StudentController {
     }
 
     @DeleteMapping("/remove")
-    public ResponseEntity<String> removeStudent(@RequestParam("student_id") long id) {
+    public ResponseEntity<String> removeStudent(@RequestParam("id") long id) {
         logger.info("Invoke removeStudent({}).", id);
         boolean status = studentService.removeStudent(id);
         if (status) {

@@ -84,7 +84,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/remove")
-    public ResponseEntity<String> removeTask(@RequestParam long id) {
+    public ResponseEntity<String> removeTask(@RequestParam("id") long id) {
         logger.info("Invoke removeTask({}).", id);
         boolean status = taskService.removeTask(id);
         if (status) {
